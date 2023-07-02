@@ -11,8 +11,9 @@ class Main:
 
     def __init__(self, screen_size, screen_resolution, file_path):
         self.file_path = file_path
-        self.screen_size = screen_size
-        self.screen_resolution = screen_resolution
+        self.screen_size = screen_size                  # In mm.
+        self.screen_resolution = screen_resolution      # In px.
+        self.background_col = [60, 60, 60]              # R.G.B.
 
         # Generating content
         self.time_sequence = self.__parse_json()

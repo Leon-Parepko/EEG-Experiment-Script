@@ -1,0 +1,91 @@
+{
+  "Task_Sub-Block_1": {
+    "type": "pattern",
+    "content": {
+      "duration": 15.0,
+      "type": "random",
+      "seed": 14725764,
+      "img_size": [250, 250],
+      "img_resolution": [6, 6]
+    }
+  },
+  "Task_Sub-Block_2": {
+    "type": "command",
+    "content": {
+      "duration": 10,
+      "state": 1,
+      "img_size": [150, 150],
+      "fixation_point_diam": 10
+    }
+  },
+  "Task_Sub-Block_3": {
+    "type": "pattern",
+    "content": {
+      "duration": 15,
+      "type": "random",
+      "seed": 12793456,
+      "img_size": [250, 250],
+      "img_resolution": [6, 6]
+    }
+  },
+  "Task_Sub-Block_4": {
+    "type": "command",
+    "content": {
+      "duration": 10,
+      "state": 2,
+      "img_size": [150, 150],
+      "fixation_point_diam": 10
+    }
+  },
+    "Task_Sub-Block_5": {
+    "type": "pattern",
+    "content": {
+      "duration": 15,
+      "type": "random",
+      "seed": 58946498,
+      "img_size": [250, 250],
+      "img_resolution": [6, 6]
+    }
+  },
+  "Task_Sub-Block_6": {
+    "type": "command",
+    "content": {
+      "duration": 10,
+      "state": 3,
+      "img_size": [150, 150],
+      "fixation_point_diam": 10
+    }
+  },
+
+  "Rest_1": {
+    "rest": {
+      "duration": 15,
+      "noise_resolution": 1
+    }
+  },
+
+  "Execution_Sub-Block_1_1": {
+    "type": "command",
+    "content": {
+      "duration": 3,
+      "state": 2,
+      "img_size": [150, 150],
+      "fixation_point_diam": 10
+    }
+  },
+  "Execution_Sub-Block_1_2": {
+    "type": "execution",
+    "content": {
+      "duration": 15,
+      "fixation_point_diam": 10
+    }
+  },
+  "Execution_Sub-Block_1_3": {
+    "type": "reset",
+    "content": {
+      "duration": 10,
+      "noise_resolution": 1
+    }
+  }
+}
+
