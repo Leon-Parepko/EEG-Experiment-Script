@@ -1,6 +1,7 @@
 import json
 import numpy as np
 
+
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.integer):
@@ -69,7 +70,7 @@ class JSONGenerator:
 
         content = {f"Block_{self.block_id}": {
                         "type": "rest",
-                        "content":{
+                        "content": {
                             "duration": duration,
                             "noise_resolution": 1,
                             "seed": seed
@@ -87,8 +88,7 @@ class JSONGenerator:
                     "duration": self.pattern_show_time,
                     "type": "random",
                     "seed": pattern_id_or_seed,
-                    "img_size": [250, 250],
-                    "img_resolution": [6, 6]
+                    "img_resolution": [60, 60]
                 }}}
 
         elif pattern_type == "geometric":
@@ -99,8 +99,7 @@ class JSONGenerator:
                     "duration": self.pattern_show_time,
                     "type": "geometric",
                     "pattern_id": pattern_id_or_seed,
-                    "img_size": [250, 250],
-                    "img_resolution": [6, 6]
+                    "img_resolution": [60, 60]
                 }}}
 
         self.block_id += 1
@@ -112,7 +111,7 @@ class JSONGenerator:
             "content": {
                 "duration": duration,
                 "state": state,
-                "img_size": [150, 150],
+                "img_resolution": [80, 80],
                 "fixation_poit_diam": 10
             }}}
 
