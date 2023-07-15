@@ -2,7 +2,7 @@
   "Block_0": {
     "type": "pattern",
     "content": {
-      "duration": 10,
+      "duration": 2,
       "type": "random",
       "seed": 7024814059,
       "img_resolution": [
@@ -26,7 +26,7 @@
   "Block_6": {
     "type": "rest",
     "content": {
-      "duration": 15,
+      "duration": 2,
       "noise_resolution": 1,
       "seed": 8797197985
     }
@@ -34,14 +34,14 @@
   "Block_8": {
     "type": "execution",
     "content": {
-      "duration": 15,
+      "duration": 2,
       "fixation_poit_diam": 10
     }
   },
   "Block_28": {
     "type": "pattern",
     "content": {
-      "duration": 10,
+      "duration": 2,
       "type": "geometric",
       "pattern_id": 11,
       "img_resolution": [

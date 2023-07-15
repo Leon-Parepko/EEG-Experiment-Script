@@ -1,6 +1,10 @@
+from Main import Main
+
 class CLI:
     def __init__(self):
-        pass
+        self.executor = Main("data.json")
 
     def run(self):
-        pass
+        self.executor.preprocess_experiment()
+        self.executor.execute_experiment()
+
