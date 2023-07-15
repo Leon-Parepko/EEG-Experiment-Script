@@ -30,7 +30,7 @@ class JSONGenerator:
         geometric_patterns_commands = [1, 2, 3, 1, 2, 3]
 
         # Generate a 3 random seed 10 digits long for random pattern generation
-        random_patterns = np.random.randint(10**10, size=3)
+        random_patterns = np.random.randint(10**8, size=3)
         random_patterns_commands = [1, 2, 3]
 
         # Merge a pair of two lists into ones
@@ -66,7 +66,7 @@ class JSONGenerator:
     def gen_rest_block_content(self, duration):
 
         # generate a random seed 10 digits long for noise generation in rest block
-        seed = np.random.randint(10**10)
+        seed = np.random.randint(10**8)
 
         content = {f"Block_{self.block_id}": {
                         "type": "rest",
