@@ -18,7 +18,7 @@ if __name__ == '__main__':
         cli.run()
 
     elif params[1] == '-g':
-        from Wrappers.Graphical_Wrapper import Graphical
+        from Wrappers.GUI_Wrapper import Graphical
         print('The program is running in GUI mode.')
         gui = Graphical()
         gui.run()

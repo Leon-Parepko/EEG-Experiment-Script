@@ -12,7 +12,7 @@ class NpEncoder(json.JSONEncoder):
             return obj.tolist()
         return super(NpEncoder, self).default(obj)
 
-
+# TODO: Add file_path as the argument of geometric pattern block
 class JSONGenerator:
     def __init__(self, file_name):
         self.content = {}

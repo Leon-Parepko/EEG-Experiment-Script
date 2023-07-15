@@ -29,8 +29,8 @@ def draw_pattern(size_in_mm, screen_width, screen_height, mm_to_pixel, map_of_pa
     inner_square_top_left_y = (screen_height // 2) - (size_pixel // 2)
     for i in range(grid_size):
         for j in range(grid_size):
-            square_top_left_x = inner_square_top_left_x + (j * grid_square_size_pixel) 
-            square_top_left_y = inner_square_top_left_y + (i * grid_square_size_pixel) 
+            square_top_left_x = inner_square_top_left_x + (j * grid_square_size_pixel)
+            square_top_left_y = inner_square_top_left_y + (i * grid_square_size_pixel)
             color = (255 * int(map_of_pattern[i, j]), 255 * int(map_of_pattern[i, j]), 255 * int(map_of_pattern[i, j]))
             cv2.rectangle(image, (square_top_left_x, square_top_left_y),
                           (square_top_left_x + grid_square_size_pixel, square_top_left_y + grid_square_size_pixel),
