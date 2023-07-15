@@ -1,0 +1,53 @@
+{
+  "Block_0": {
+    "type": "pattern",
+    "content": {
+      "duration": 10,
+      "type": "random",
+      "seed": 7024814059,
+      "img_resolution": [
+        60,
+        60
+      ]
+    }
+  },
+  "Block_1": {
+    "type": "command",
+    "content": {
+      "duration": 5,
+      "state": 1,
+      "img_resolution": [
+        80,
+        80
+      ],
+      "fixation_poit_diam": 10
+    }
+  },
+  "Block_6": {
+    "type": "rest",
+    "content": {
+      "duration": 15,
+      "noise_resolution": 1,
+      "seed": 8797197985
+    }
+  },
+  "Block_8": {
+    "type": "execution",
+    "content": {
+      "duration": 15,
+      "fixation_poit_diam": 10
+    }
+  },
+  "Block_28": {
+    "type": "pattern",
+    "content": {
+      "duration": 10,
+      "type": "geometric",
+      "pattern_id": 11,
+      "img_resolution": [
+        60,
+        60
+      ]
+    }
+  }
+}
