@@ -28,7 +28,7 @@ class PatternBlock(Block):
         array_of_patterns.append(map_of_pattern)
 
 
-    def __init__(self, size_in_mm, duration_in_sec, type_of_block, pattern_id):
+    def __init__(self, background_col, size_in_mm, duration_in_sec, type_of_block, pattern_id):
         """
         Initialize the block.
         """
@@ -36,13 +36,14 @@ class PatternBlock(Block):
         self.duration_in_sec = duration_in_sec
         self.type_of_block = type_of_block
         self.map_of_pattern = self.array_of_patterns[pattern_id % len(self.array_of_patterns)]
+        self.background_col = background_col
 
     def generate_block_picture(self, screen_width, screen_height, mm_to_pixel):
         """
         Generate the picture of the block.
         """
         image = np.zeros((screen_height, screen_width, 3), dtype=np.uint8)
-        image[:, :] = (60, 60, 60)
+        image[:, :] = self.background_col
 
         grid_size = len(self.map_of_pattern)
         size_pixel = int(self.size_in_mm * mm_to_pixel)
@@ -68,8 +69,9 @@ class PatternBlock(Block):
 
 
 class RandomPatternBlock(Block):
-    def __init__(self, size_in_mm, duration_in_sec, grid_size, type_of_block, seed=None):
+    def __init__(self, background_col, size_in_mm, duration_in_sec, grid_size, type_of_block, seed=None):
         np.random.seed(seed)
+        self.background_col = background_col
         self.size_in_mm = size_in_mm
         self.duration_in_sec = duration_in_sec
         self.grid_size = grid_size
@@ -78,7 +80,7 @@ class RandomPatternBlock(Block):
 
     def generate_block_picture(self, screen_width, screen_height, mm_to_pixel):
         image = np.zeros((screen_height, screen_width, 3), dtype=np.uint8)
-        image[:, :] = (60, 60, 60)
+        image[:, :] = self.background_col
 
         grid_size = len(self.map_of_pattern)
         size_pixel = int(self.size_in_mm * mm_to_pixel)
@@ -130,14 +132,15 @@ class RestGaussian(Block):
 
 
 class Execution(Block):
-    def __init__(self, type_of_block, diam_in_mm, duration_in_sec):
+    def __init__(self, background_col, type_of_block, diam_in_mm, duration_in_sec):
+        self.background_col = background_col
         self.type_of_block = type_of_block
         self.diam_in_mm = diam_in_mm
         self.duration_in_sec = duration_in_sec
 
     def generate_block_picture(self, screen_width, screen_height, mm_to_pixel):
         image = np.zeros((screen_height, screen_width, 3), dtype=np.uint8)
-        image[:, :] = (60, 60, 60)
+        image[:, :] = self.background_col
         diameter_in_pixels = int(self.diam_in_mm * mm_to_pixel)
         center_x = screen_width // 2
         center_y = screen_height // 2
@@ -148,7 +151,8 @@ class Execution(Block):
 
 
 class Command(Block):
-    def __init__(self, type_of_block, duration_in_sec, height_in_mm, position, diameter_in_mm):
+    def __init__(self, background_col, type_of_block, duration_in_sec, height_in_mm, position, diameter_in_mm):
+        self.background_col = background_col
         self.type_of_block = type_of_block
         self.duration_in_sec = duration_in_sec
         self.height_in_mm = height_in_mm
@@ -157,7 +161,7 @@ class Command(Block):
 
     def generate_block_picture(self, screen_width, screen_height, mm_to_pixel):
         image = np.zeros((screen_height, screen_width, 3), dtype=np.uint8)
-        image[:, :] = (60, 60, 60)
+        image[:, :] = self.background_col
         height_in_pixels = int(self.height_in_mm * mm_to_pixel)
         side_length_in_pixels = int((height_in_pixels * 2) / np.sqrt(3))
         start_x = (screen_width - side_length_in_pixels) // 2

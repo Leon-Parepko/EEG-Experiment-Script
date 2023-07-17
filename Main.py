@@ -16,7 +16,6 @@ class Main:
         The constructor.
         """
         self.screen_resolution = [0, 0]
-        self.background_col = [60, 60, 60]              # R.G.B.
         self.experiment_sequence = []
         self.experiment_prerender = []
 
@@ -96,17 +95,18 @@ class Main:
             block_name = next(iter(block_dict))
             block_type = block_dict[block_name]["type"]
             if block_type == "pattern":
+                background_col = block_dict[block_name]["content"]["background_color"]
                 size_in_mm = block_dict[block_name]["content"]["img_resolution"][0]
                 duration_in_sec = block_dict[block_name]["content"]["duration"]
                 if block_dict[block_name]["content"]["type"] == "random":
                     grid_size = 6
                     seed = (block_dict[block_name]["content"]["seed"]) % 2 ** 32
                     self.experiment_sequence.append(
-                        Blocks.RandomPatternBlock(size_in_mm, duration_in_sec, grid_size, block_type, seed))
+                        Blocks.RandomPatternBlock(background_col, size_in_mm, duration_in_sec, grid_size, block_type, seed))
                 else:
                     pattern_id = (block_dict[block_name]["content"]["pattern_id"])
                     self.experiment_sequence.append(
-                        Blocks.PatternBlock(size_in_mm, duration_in_sec, block_type, pattern_id))
+                        Blocks.PatternBlock(background_col, size_in_mm, duration_in_sec, block_type, pattern_id))
             elif block_type == "rest":
                 duration_in_sec = block_dict[block_name]["content"]["duration"]
                 noise_resolution = block_dict[block_name]["content"]["noise_resolution"]
@@ -115,17 +115,19 @@ class Main:
                     Blocks.RestGaussian(block_type, duration_in_sec, noise_resolution, seed_value=seed))
 
             elif block_type == "execution":
+                background_col = block_dict[block_name]["content"]["background_color"]
                 duration_in_sec = block_dict[block_name]["content"]["duration"]
                 diam_in_mm = block_dict[block_name]["content"]["fixation_poit_diam"]
-                self.experiment_sequence.append(Blocks.Execution(block_type, diam_in_mm, duration_in_sec))
+                self.experiment_sequence.append(Blocks.Execution(background_col, block_type, diam_in_mm, duration_in_sec))
 
             elif block_type == "command":
+                background_col = block_dict[block_name]["content"]["background_color"]
                 duration_in_sec = block_dict[block_name]["content"]["duration"]
                 diam_in_mm = block_dict[block_name]["content"]["fixation_poit_diam"]
                 height_in_mm = block_dict[block_name]["content"]["img_resolution"][0]
                 position = block_dict[block_name]["content"]["state"]
                 self.experiment_sequence.append(
-                    Blocks.Command(block_type, duration_in_sec, height_in_mm, position, diam_in_mm))
+                    Blocks.Command(background_col, block_type, duration_in_sec, height_in_mm, position, diam_in_mm))
 
 
 

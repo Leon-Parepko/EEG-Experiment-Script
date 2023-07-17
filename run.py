@@ -14,8 +14,7 @@ if __name__ == '__main__':
     elif params[1] == '-c':
         from Wrappers.CLI_Wrapper import CLI
         print('The program is running in CLI mode.')
-        cli = CLI()
-        cli.run()
+        CLI()
 
     elif params[1] == '-g':
         from Wrappers.GUI_Wrapper import Graphical

@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import ast
 
 
 class NpEncoder(json.JSONEncoder):
@@ -14,15 +15,21 @@ class NpEncoder(json.JSONEncoder):
 
 # TODO: Add file_path as the argument of geometric pattern block
 class JSONGenerator:
-    def __init__(self, file_name):
+    def __init__(self, file_name, background_color=(60, 60, 60), pattern_show_time=10, command_pattern_correspondance_time=5, command_before_execution_time=3, execution_time=15):
         self.content = {}
         self.file_name = file_name
         self.block_id = 0
-        self.pattern_show_time = 10
-        self.command_pattern_correspondance_time = 5
-        self.command_before_execution_time = 3
-        self.execution_time = 15
-        self.geometric_patterns_num = 12
+        self.background_color = background_color
+        self.pattern_show_time = pattern_show_time
+        self.command_pattern_correspondance_time = command_pattern_correspondance_time
+        self.command_before_execution_time = command_before_execution_time
+        self.execution_time = execution_time
+
+        # Get length of geometric_patterns.txt
+        file = open("geometric_patterns.txt", "r")
+        patterns = ast.literal_eval(file.read())
+        file.close()
+        self.geometric_patterns_num = len(patterns)
 
 
         # Generate sequence 6 unique geometric patterns id"s
@@ -85,6 +92,7 @@ class JSONGenerator:
             content = {f"Block_{self.block_id}": {
                 "type": "pattern",
                 "content": {
+                    "background_color": self.background_color,
                     "duration": self.pattern_show_time,
                     "type": "random",
                     "seed": pattern_id_or_seed,
@@ -96,6 +104,7 @@ class JSONGenerator:
             content = {f"Block_{self.block_id}": {
                 "type": "pattern",
                 "content": {
+                    "background_color": self.background_color,
                     "duration": self.pattern_show_time,
                     "type": "geometric",
                     "pattern_id": pattern_id_or_seed,
@@ -109,6 +118,7 @@ class JSONGenerator:
         content = {f"Block_{self.block_id}": {
             "type": "command",
             "content": {
+                "background_color": self.background_color,
                 "duration": duration,
                 "state": state,
                 "img_resolution": [80, 80],
@@ -122,6 +132,7 @@ class JSONGenerator:
         content = {f"Block_{self.block_id}": {
             "type": "execution",
             "content": {
+                "background_color": self.background_color,
                 "duration": self.execution_time,
                 "fixation_poit_diam": 10
             }}}
