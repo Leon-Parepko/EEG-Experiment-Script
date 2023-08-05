@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import ast
+import os
 
 
 class Block:
@@ -11,13 +12,14 @@ class Block:
         pass
 
 
+
 class PatternBlock(Block):
     """
     Block with a pattern.
     """
 
     # Read patterns from file
-    file = open("geometric_patterns.txt", "r")
+    file = open("Content/geometric_patterns.txt", "r")
     patterns = res = ast.literal_eval(file.read())
     file.close()
 
@@ -104,6 +106,7 @@ class RandomPatternBlock(Block):
         return image
 
 
+
 class RestGaussian(Block):
     def __init__(self, type_of_block, duration_in_sec, cell_size=2, blur_value=7, seed_value=None):
         self.duration_in_sec = duration_in_sec
@@ -148,6 +151,7 @@ class Execution(Block):
         image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image
+
 
 
 class Command(Block):
@@ -215,5 +219,90 @@ class Command(Block):
         else:
             cv2.fillPoly(image, [pts3], (255, 255, 255))
         image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        return image
+
+
+
+class Custom(Block):
+    """
+    This block simply gets .png image
+     from the Content folder and shows
+     it on the screen with corresponding time
+    """
+
+    def __init__(self, background_col, type_of_block, duration_in_sec, image_name, fit_to_screen):
+        self.background_col = background_col
+        self.type_of_block = type_of_block
+        self.duration_in_sec = duration_in_sec
+        self.image_name = image_name
+        self.fit_to_screen = fit_to_screen
+
+    def generate_block_picture(self, screen_width, screen_height, mm_to_pixel):
+        image = cv2.imread(os.path.join('Content', self.image_name))
+
+        if self.fit_to_screen == "no-crop":
+            img_height, img_width, _ = image.shape
+
+            if screen_width > screen_height:
+                image = cv2.resize(image, (int(img_width * screen_height / img_height), screen_height))
+            else:
+                image = cv2.resize(image, (screen_width, int(img_height * screen_width / img_width)))
+
+            # Center the image and add paddings as a background color
+            img_height, img_width, _ = image.shape
+            top = (screen_height - img_height) // 2
+            bottom = screen_height - img_height - top
+            left = (screen_width - img_width) // 2
+            right = screen_width - img_width - left
+            image = cv2.copyMakeBorder(image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=self.background_col)
+
+            # Transpose the image
+            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
+            # Mirror the image horizontally
+            image = cv2.flip(image, 1)
+
+
+        elif self.fit_to_screen == "crop":
+            img_height, img_width, _ = image.shape
+
+            hight_ratio = screen_height / img_height
+            width_ratio = screen_width / img_width
+
+            scale_ratio = max(hight_ratio, width_ratio)
+
+            # TODO Content/test.json
+            image = cv2.resize(image, (int(img_width * scale_ratio), int(img_height * scale_ratio)))
+
+            # Crop the edges to fit the screen
+            img_height, img_width, _ = image.shape
+            top = abs((img_height - screen_height) // 2)
+            bottom = abs(img_height - screen_height - top)
+            left = abs((img_width - screen_width) // 2)
+            right = abs(img_width - screen_width - left)
+            image = image[top:img_height - bottom, left:img_width - right]
+
+            # Compensate cropped pixels
+            image = cv2.resize(image, (screen_width, screen_height))
+
+            # Transpose the image
+            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
+            # Mirror the image horizontally
+            image = cv2.flip(image, 1)
+
+
+
+        elif self.fit_to_screen == "stretch":
+
+            image = cv2.resize(image, (screen_width, screen_height))
+
+            # Transpose the image
+            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
+            # Mirror the image horizontally
+            image = cv2.flip(image, 1)
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image

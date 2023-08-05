@@ -62,6 +62,11 @@ class Main:
                 image_surface = pygame.surfarray.make_surface(image)
                 self.experiment_prerender.append((image_surface, elem.duration_in_sec))
 
+            elif elem.type_of_block == "custom":
+                image = elem.generate_block_picture(self.screen_resolution[0], self.screen_resolution[1], mm_to_pixel)
+                image_surface = pygame.surfarray.make_surface(image)
+                self.experiment_prerender.append((image_surface, elem.duration_in_sec))
+
 
     def execute_experiment(self):
         """
@@ -73,10 +78,14 @@ class Main:
 
         # Seqentialy how the prerendered images
         for elem in self.experiment_prerender:
+
+            # Print the shape of a picture1
             screen.blit(elem[0], (0, 0))
             pygame.display.flip()
             time.sleep(elem[1])
         pygame.quit()
+        self.experiment_sequence = []
+        self.experiment_prerender = []
 
 
     def parse_json(self, json_file_path):
@@ -129,5 +138,11 @@ class Main:
                 self.experiment_sequence.append(
                     Blocks.Command(background_col, block_type, duration_in_sec, height_in_mm, position, diam_in_mm))
 
-
+            elif block_type == "custom":
+                background_col = block_dict[block_name]["content"]["background_color"]
+                duration_in_sec = block_dict[block_name]["content"]["duration"]
+                img_path = block_dict[block_name]["content"]["image_path"]
+                fit_to_screen = block_dict[block_name]["content"]["fit_to_screen"]
+                self.experiment_sequence.append(
+                    Blocks.Custom(background_col, block_type, duration_in_sec, img_path, fit_to_screen))
 

@@ -48,7 +48,7 @@ def draw_rand_pattern(size_in_mm, screen_width, screen_height, mm_to_pixel, grid
            Parameters:
            - size_in_mm (int): Size of grid in mm
            - screen_width (int): Screen width in mm
-           - screen_height (int): Screen height in mm
+           - screen_height (int): Scren height in mm
            - mm_to_pixel (float): Conversion rate from pixel to mm
            - grid_size (int): Amount of squares in one row
            - seed_value (int): Seed for random

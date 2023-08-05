@@ -26,7 +26,7 @@ class JSONGenerator:
         self.execution_time = execution_time
 
         # Get length of geometric_patterns.txt
-        file = open("geometric_patterns.txt", "r")
+        file = open("Content/geometric_patterns.txt", "r")
         patterns = ast.literal_eval(file.read())
         file.close()
         self.geometric_patterns_num = len(patterns)
