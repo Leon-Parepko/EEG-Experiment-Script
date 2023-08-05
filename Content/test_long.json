@@ -1,0 +1,251 @@
+{
+    "Block_4": {
+    "type": "pattern",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "type": "geometric",
+      "pattern_id": 0,
+      "img_resolution": [
+        60,
+        60
+      ]
+    }
+  },
+    "Block_44": {
+    "type": "pattern",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "type": "geometric",
+      "pattern_id": 1,
+      "img_resolution": [
+        60,
+        60
+      ]
+    }
+  },
+    "Block_444": {
+    "type": "pattern",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "type": "geometric",
+      "pattern_id": 2,
+      "img_resolution": [
+        60,
+        60
+      ]
+    }
+  },
+
+
+
+  "Block_0": {
+    "type": "pattern",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "type": "random",
+      "seed": 7024814059,
+      "img_resolution": [
+        60,
+        60
+      ]
+    }
+  },
+    "Block_00": {
+    "type": "pattern",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "type": "random",
+      "seed": 7024810984,
+      "img_resolution": [
+        60,
+        60
+      ]
+    }
+  },
+    "Block_000": {
+    "type": "pattern",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "type": "random",
+      "seed": 7086414059,
+      "img_resolution": [
+        60,
+        60
+      ]
+    }
+  },
+
+
+
+  "Block_1": {
+    "type": "command",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "state": 0,
+      "img_resolution": [
+        80,
+        80
+      ],
+      "fixation_poit_diam": 10
+    }
+  },
+    "Block_11": {
+    "type": "command",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "state": 1,
+      "img_resolution": [
+        80,
+        80
+      ],
+      "fixation_poit_diam": 10
+    }
+  },
+    "Block_111": {
+    "type": "command",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "state": 2,
+      "img_resolution": [
+        80,
+        80
+      ],
+      "fixation_poit_diam": 10
+    }
+  },
+    "Block_1111": {
+    "type": "command",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "state": 3,
+      "img_resolution": [
+        80,
+        80
+      ],
+      "fixation_poit_diam": 10
+    }
+  },
+
+
+  "Block_2": {
+    "type": "rest",
+    "content": {
+      "duration": 1,
+      "noise_resolution": 1,
+      "seed": 8797197985
+    }
+  },
+    "Block_22": {
+    "type": "rest",
+    "content": {
+      "duration": 1,
+      "noise_resolution": 1,
+      "seed": 8797191635
+    }
+  },
+
+
+  "Block_3": {
+    "type": "execution",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "fixation_poit_diam": 10
+    }
+  },
+
+
+    "Block_7": {
+    "type": "custom",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "image_path": "test.png",
+      "fit_to_screen": "no-crop"
+    }
+  },
+    "Block_5": {
+    "type": "custom",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "image_path": "test.png",
+      "fit_to_screen": "stretch"
+    }
+  },
+    "Block_6": {
+    "type": "custom",
+    "content": {
+      "background_color": [
+                60,
+                60,
+                60
+            ],
+      "duration": 1,
+      "image_path": "test.png",
+      "fit_to_screen": "crop"
+    }
+  }
+}

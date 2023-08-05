@@ -271,8 +271,6 @@ class Custom(Block):
             width_ratio = screen_width / img_width
 
             scale_ratio = max(hight_ratio, width_ratio)
-
-            # TODO Content/test.json
             image = cv2.resize(image, (int(img_width * scale_ratio), int(img_height * scale_ratio)))
 
             # Crop the edges to fit the screen
