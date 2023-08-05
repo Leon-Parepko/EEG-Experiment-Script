@@ -1,7 +1,7 @@
 # EEG-Experiment-Script
 This script is used to generate a visual stimuli (pictures/images) for EEG semantic reconstruction of image experiment. It also could run the constructed experiments in real time with previous preprocessing to decrease the time delays and make the experiment unbiased.
 
-![demo.gif](demo.gif)
+![demo_full.gif](demo_full.gif)
 
 
 ## Installation And Run
