@@ -64,7 +64,13 @@ class PatternBlock(Block):
                               (square_top_left_x + grid_square_size_pixel, square_top_left_y + grid_square_size_pixel),
                               color, -1)
 
+        # Rotate 180
         image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+        image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
+        # Mirror the image horizontally
+        image = cv2.flip(image, 1)
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image
 
@@ -100,8 +106,13 @@ class RandomPatternBlock(Block):
                 cv2.rectangle(image, (square_top_left_x, square_top_left_y),
                               (square_top_left_x + grid_square_size_pixel, square_top_left_y + grid_square_size_pixel),
                               color, -1)
-
+        # Rotate 180
         image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+        image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
+        # Mirror the image horizontally
+        image = cv2.flip(image, 1)
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image
 
@@ -128,8 +139,7 @@ class RestGaussian(Block):
                 image[i * self.cell_size: (i + 1) * self.cell_size,
                 j * self.cell_size: (j + 1) * self.cell_size] = cell_value
         blurred_image = cv2.GaussianBlur(image, (self.blur_value, self.blur_value), 0)
-        image = cv2.rotate(blurred_image, cv2.ROTATE_90_CLOCKWISE)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = cv2.cvtColor(blurred_image, cv2.COLOR_BGR2RGB)
         return image
 
 
@@ -148,7 +158,14 @@ class Execution(Block):
         center_x = screen_width // 2
         center_y = screen_height // 2
         cv2.circle(image, (center_x, center_y), diameter_in_pixels // 2, (255, 255, 255), -1)
+
+        # Rotate 180
         image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+        image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
+        # Mirror the image horizontally
+        image = cv2.flip(image, 1)
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image
 
@@ -182,7 +199,7 @@ class Command(Block):
         if self.position == 0:
             cv2.circle(image, (center_x, center_y), diameter_in_pixels // 2, (255, 255, 255), -1)
         else:
-            cv2.circle(image, (center_x, center_y), diameter_in_pixels // 2, (0, 255, 0), -1)
+            cv2.circle(image, (center_x, center_y), diameter_in_pixels // 2, (70, 163, 70), -1)
         mm_otstup = 5
         otstup_pixel = mm_otstup * mm_to_pixel
         kx = center_x - otstup_pixel
@@ -193,7 +210,7 @@ class Command(Block):
         my = y1 - int(((side_length_in_pixels / 2) - otstup_pixel) / np.sqrt(3))
         pts1 = np.array([[x1, y1], [kx, ky], [mx, my], [nx, ny]], np.int32)
         if self.position == 2:
-            cv2.fillPoly(image, [pts1], (0, 255, 0))
+            cv2.fillPoly(image, [pts1], (70, 163, 70))
         else:
             cv2.fillPoly(image, [pts1], (255, 255, 255))
         ax = center_x + otstup_pixel
@@ -204,7 +221,7 @@ class Command(Block):
         cy = ny
         pts2 = np.array([[x3, y3], [ax, ay], [bx, by], [cx, cy]], np.int32)
         if self.position == 1:
-            cv2.fillPoly(image, [pts2], (0, 255, 0))
+            cv2.fillPoly(image, [pts2], (70, 163, 70))
         else:
             cv2.fillPoly(image, [pts2], (255, 255, 255))
         qx = x2 - int(((side_length_in_pixels / 2) - otstup_pixel) / 2)
@@ -215,11 +232,16 @@ class Command(Block):
         ey = qy
         pts3 = np.array([[x2, y2], [qx, qy], [wx, wy], [ex, ey]], np.int32)
         if self.position == 3:
-            cv2.fillPoly(image, [pts3], (0, 255, 0))
+            cv2.fillPoly(image, [pts3], (70, 163, 70))
         else:
             cv2.fillPoly(image, [pts3], (255, 255, 255))
-        image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
+        # Rotate 180
+        image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+        image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
         return image
 
 
@@ -257,7 +279,8 @@ class Custom(Block):
             right = screen_width - img_width - left
             image = cv2.copyMakeBorder(image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=self.background_col)
 
-            # Transpose the image
+            # Rotate 180
+            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
             image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
 
             # Mirror the image horizontally
@@ -284,7 +307,8 @@ class Custom(Block):
             # Compensate cropped pixels
             image = cv2.resize(image, (screen_width, screen_height))
 
-            # Transpose the image
+            # Rotate 180
+            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
             image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
 
             # Mirror the image horizontally
@@ -296,7 +320,8 @@ class Custom(Block):
 
             image = cv2.resize(image, (screen_width, screen_height))
 
-            # Transpose the image
+            # Rotate 180
+            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
             image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
 
             # Mirror the image horizontally
