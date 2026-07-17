@@ -28,6 +28,10 @@ class CLI:
         experiment_file_path = input("Enter the experiment file path: ")
         print(f"Parsing the {experiment_file_path} file...")
         self.executor.parse_json(experiment_file_path)
+        testing = input('Enter "Test" if you have not access to EyeTracker: ')
+        if testing != 'Test':
+            edffilename = input('Ok, please, choose edf-file name: ')
+        else: edffilename = ''
         print("Preprocessing the experiment...")
         self.executor.preprocess_experiment()
         print("Press 'Enter' to start the experiment.")
@@ -35,7 +39,7 @@ class CLI:
         # Sorry for that part, but i think it should work :)
         input()
         print("Running the experiment...")
-        self.executor.execute_experiment()
+        self.executor.execute_experiment(testing, edffilename=edffilename)
 
     def generate(self):
         file_name = str(input("Enter the file name in format 'name.json': "))

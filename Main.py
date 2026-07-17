@@ -4,6 +4,10 @@ import pygame
 from screeninfo import get_monitors
 import tkinter as tk
 import time
+import pylink
+from psychopy import visual, core, event
+import tqdm
+import RDA_threaded as RDA
 
 
 class Main:
@@ -26,64 +30,119 @@ class Main:
         a prerendered version of it.
         """
         # ctypes.windll.user32.SetProcessDPIAware() # use only for low quality displays
-        pygame.init()
         root = tk.Tk()
         root.attributes("-fullscreen", True)
 
         # Get screen resolution in pixels
         self.screen_resolution = [root.winfo_screenwidth(), root.winfo_screenheight()]
-
-        # Creates a fake window with the screen resolution and gets the dpi
         root.destroy()
+        # Creates a fake window with the screen resolution and gets the dpi
         monitors = get_monitors()
-        dpi = monitors[0].width / monitors[0].width_mm
-        screen_width_cm = self.screen_resolution[0] / dpi
-        mm_to_pixel = self.screen_resolution[1] / screen_width_cm
+        if monitors[0].width and monitors[0].width_mm:
+            dpi = monitors[0].width / monitors[0].width_mm
+            screen_width_cm = self.screen_resolution[0] / dpi
+            mm_to_pixel = self.screen_resolution[0] / screen_width_cm   # Hotfix screen_resolution id for width is 0 (not 1)
+        else:
+            monitors[0].width_mm = 369
+            dpi = monitors[0].width / monitors[0].width_mm
+            screen_width_cm = self.screen_resolution[0] / dpi / 1920 * 1080
+            mm_to_pixel = self.screen_resolution[0] / screen_width_cm   # Hotfix screen_resolution id for width is 0 (not 1)
 
+        print(self.screen_resolution, monitors[0], mm_to_pixel)
         # Preprocess the experiment sequence
         for elem in self.experiment_sequence:
             if elem.type_of_block == "pattern":
                 image = elem.generate_block_picture(self.screen_resolution[0], self.screen_resolution[1], mm_to_pixel)
-                image_surface = pygame.surfarray.make_surface(image)
-                self.experiment_prerender.append((image_surface, elem.duration_in_sec))
+                self.experiment_prerender.append((image, elem.duration_in_sec))
 
             elif elem.type_of_block == "rest":
                 image = elem.generate_block_picture(self.screen_resolution[0], self.screen_resolution[1])
-                image_surface = pygame.surfarray.make_surface(image)
-                self.experiment_prerender.append((image_surface, elem.duration_in_sec))
+                self.experiment_prerender.append((image, elem.duration_in_sec))
 
             elif elem.type_of_block == "execution":
                 image = elem.generate_block_picture(self.screen_resolution[0], self.screen_resolution[1], mm_to_pixel)
-                image_surface = pygame.surfarray.make_surface(image)
-                self.experiment_prerender.append((image_surface, elem.duration_in_sec))
+                self.experiment_prerender.append((image, elem.duration_in_sec))
 
             elif elem.type_of_block == "command":
                 image = elem.generate_block_picture(self.screen_resolution[0], self.screen_resolution[1], mm_to_pixel)
-                image_surface = pygame.surfarray.make_surface(image)
-                self.experiment_prerender.append((image_surface, elem.duration_in_sec))
+                self.experiment_prerender.append((image, elem.duration_in_sec))
 
             elif elem.type_of_block == "custom":
                 image = elem.generate_block_picture(self.screen_resolution[0], self.screen_resolution[1], mm_to_pixel)
-                image_surface = pygame.surfarray.make_surface(image)
-                self.experiment_prerender.append((image_surface, elem.duration_in_sec))
+                self.experiment_prerender.append((image, elem.duration_in_sec))
 
+    def eyelink_connect(self):
+        self.eyelink = pylink.EyeLink('100.1.1.1')
 
-    def execute_experiment(self):
+        # Open the connection to the EyeLink eye tracker
+        # self.eyelink.open()
+
+        # Set the EyeLink host PC IP address (default is '100.1.1.1')
+        # self.eyelink.setAddress('100.1.1.1')
+
+        # Set the data file name
+        self.eyelink.setFileEventFilter("LEFT,RIGHT,FIXATION,SACCADE,BLINK,MESSAGE,BUTTON")
+        self.eyelink.setFileSampleFilter("LEFT,RIGHT,GAZE,AREA,GAZERES,STATUS,HTARGET")
+
+        # Set the link data (used for real-time data transfer)
+        self.eyelink.setLinkEventFilter("LEFT,RIGHT,FIXATION,SACCADE,BLINK,MESSAGE,BUTTON")
+        self.eyelink.setLinkSampleFilter("LEFT,RIGHT,GAZE,GAZERES,AREA,STATUS,HTARGET")
+    
+    def eyelink_calibrate(self):
+        pylink.openGraphics()
+        self.eyelink.doTrackerSetup()
+        pylink.closeGraphics()
+        
+    def eyelink_close(self):
+                # Stop recording
+        self.eyelink.stopRecording()
+
+        # Close the EDF file and transfer it to the host PC
+        self.eyelink.closeDataFile()
+        self.eyelink.receiveDataFile(self.edf_file, self.edf_file)
+
+        # Close the connection to the EyeLink eye tracker
+        self.eyelink.close()
+
+    def execute_experiment(self, testing, edffilename=False):
+        self.edf_file = edffilename
         """
         Simply executes the experiment
         by showing the prerendered images.
         """
         # Initialize pygame
-        screen = pygame.display.set_mode((self.screen_resolution[0], self.screen_resolution[1]), pygame.FULLSCREEN)
+        print('connection...')
+        if testing != 'Test':
+            self.eyelink_connect()
+        win = visual.Window(self.screen_resolution, fullscr=False, color=(1, 1, 1))
+        print('calibration...')
+        if testing != 'Test':
+            self.eyelink_calibrate()
+            self.eyelink.openDataFile(self.edf_file)
 
-        # Seqentialy how the prerendered images
-        for elem in self.experiment_prerender:
+        print('start recording...')
+        # Start recording
+        if testing != 'Test':
+            self.eyelink.startRecording(1, 1, 1, 1)
+        print('start experiment...')
+        # Seqentialy show the prerendered images
+        # TODO: Add ip variable here, add timestamp
+        rda = RDA.run_rda_thread()
 
+        for elem in tqdm.tqdm(self.experiment_prerender):
+            img = visual.ImageStim(win, image=elem[0]/256, size=2)
+            img.draw()
+            win.flip()
             # Print the shape of a picture1
-            screen.blit(elem[0], (0, 0))
-            pygame.display.flip()
-            time.sleep(elem[1])
-        pygame.quit()
+            #screen.blit(elem[0], (0, 0))
+            #pygame.display.flip()
+            core.wait(elem[1])
+        #pygame.quit()
+        rda.stop_thread()
+        if testing != 'Test':
+            self.eyelink_close()
+        win.close()
+        core.quit()
         self.experiment_sequence = []
         self.experiment_prerender = []
 
